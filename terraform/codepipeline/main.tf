@@ -3,11 +3,11 @@ resource "aws_codepipeline" "tf-pipeline" {
   role_arn = var.codepipeline_role_arn
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_bucket.bucket
+    location = var.s3_bucket_name
     type     = "S3"
 
     encryption_key {
-      id   = aws_kms_key.tf-key
+      id   = var.kms_key_arn
       type = "KMS"
     }
   }
@@ -24,9 +24,9 @@ resource "aws_codepipeline" "tf-pipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.example.arn
-        FullRepositoryId = "my-organization/example"
-        BranchName       = "main"
+        RepositoryName       = var.source_repo_name
+        BranchName           = var.source_repo_branch
+        PollForSourceChanges = "true"
       }
     }
   }
@@ -44,7 +44,7 @@ resource "aws_codepipeline" "tf-pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "test"
+        ProjectName = "aws-terraflow"
       }
     }
   }
@@ -55,8 +55,8 @@ resource "aws_codepipeline" "tf-pipeline" {
     action {
       name            = "Deploy"
       category        = "Deploy"
-      owner           = stage.value["owner"]
-      provider        = stage.value["provider"]
+      owner           = "AWS"
+      provider        = "CloudFormation"
       input_artifacts = ["build_output"]
       version         = "1"
 
@@ -65,13 +65,8 @@ resource "aws_codepipeline" "tf-pipeline" {
         Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
         OutputFileName = "CreateStackOutput.json"
         StackName      = "terraflow"
-        TemplatePath   = "build_output::sam-templated.yaml"
+        TemplatePath   = "build_output::template-export.yaml"
       }
     }
   }
-}
-
-resource "aws_codestarconnections_connection" "tf-github" {
-  name          = "tf-github"
-  provider_type = "GitHub"
 }

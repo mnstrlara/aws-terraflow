@@ -31,8 +31,8 @@ resource "aws_kms_key" "tf-key" {
           AWS = var.codepipeline_role_arn
         },
         Action : [
-          "kms: Encrypt",
-          "kms: Decrypt",
+          "kms:Encrypt",
+          "kms:Decrypt",
           "kms:ReEncrypt*",
           "kms:GenerateDataKey*",
           "kms:DescribeKey"
@@ -54,9 +54,4 @@ resource "aws_kms_key" "tf-key" {
       }
     ]
   })
-}
-
-resource "aws_kms_alias" "tf-key-alias" {
-  name          = "alias/tf-key-alias"
-  target_key_id = aws_kms_key.tf-key
 }

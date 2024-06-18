@@ -4,7 +4,7 @@ resource "aws_codebuild_project" "tf-codebuild" {
   encryption_key = var.kms_key_arn
   
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "S3"
   }
 
   cache {
