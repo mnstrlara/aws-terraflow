@@ -1,14 +1,14 @@
-output "arn" {
-  value       = aws_s3_bucket.tf-bucket.arn
+output "s3_bucket_arn" {
+  value       = aws_s3_bucket.terraflow-bucket.arn
   description = "The ARN of the S3 Bucket"
 }
 
-output "bucket" {
-  value       = aws_s3_bucket.tf-bucket.bucket
+output "s3_bucket_name" {
+  value       = aws_s3_bucket.terraflow-bucket.bucket
   description = "The Name of the S3 Bucket"
 }
 
 output "bucket_url" {
-  value       = "https://s3.console.aws.amazon.com/s3/buckets/${aws_s3_bucket.tf-bucket.bucket}?region=${aws_s3_bucket.tf-bucket.region}&tab=objects"
+  value       = "https://s3.console.aws.amazon.com/s3/buckets/${aws_s3_bucket.terraflow-bucket.bucket}?region=${aws_s3_bucket.terraflow-bucket.region}&tab=objects"
   description = "The URL of the S3 Bucket"
 }

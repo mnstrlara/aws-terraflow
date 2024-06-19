@@ -1,5 +1,5 @@
-resource "aws_codepipeline" "tf-pipeline" {
-  name     = "tf-pipeline"
+resource "aws_codepipeline" "terraflow-pipeline" {
+  name     = "terraflow-pipeline"
   role_arn = var.codepipeline_role_arn
 
   artifact_store {
