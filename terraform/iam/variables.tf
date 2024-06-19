@@ -1,7 +1,6 @@
 variable "project_name" {
   description = "Unique name for this project"
   type        = string
-  default     = "aws-terraflow"
 }
 
 variable "create_new_role" {
