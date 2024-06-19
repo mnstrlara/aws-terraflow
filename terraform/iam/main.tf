@@ -1,6 +1,6 @@
-resource "aws_iam_role" "tf-role" {
+resource "aws_iam_role" "terraflow-role" {
   count              = var.create_new_role ? 1 : 0
-  name               = var.codepipeline_iam_role_name
+  name               = "terraflow-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -25,7 +25,7 @@ EOF
   path               = "/"
 }
 
-resource "aws_iam_policy" "tf-policy" {
+resource "aws_iam_policy" "terraflow-policy" {
   count       = var.create_new_role ? 1 : 0
   name        = "${var.project_name}-codepipeline-policy"
   description = "Policy to allow codepipeline to execute"
@@ -41,7 +41,7 @@ resource "aws_iam_policy" "tf-policy" {
         "s3:PutObjectAcl",
         "s3:PutObject"
       ],
-      "Resource": "${var.s3_bucket_arn}/*"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -52,7 +52,7 @@ resource "aws_iam_policy" "tf-policy" {
          "kms:ReEncrypt*",
          "kms:Decrypt"
       ],
-      "Resource": "${var.kms_key_arn}"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -103,4 +103,10 @@ resource "aws_iam_policy" "tf-policy" {
   ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "codepipeline_role_attach" {
+  count      = var.create_new_role ? 1 : 0
+  role       = aws_iam_role.terraflow-role[0].name
+  policy_arn = aws_iam_policy.terraflow-policy[0].arn
 }
