@@ -1,13 +1,13 @@
 resource "aws_codebuild_project" "terraflow-codebuild" {
-  name = "terraflow-codebuild"
-  service_role = var.role_arn
+  name           = "terraflow-codebuild"
+  service_role   = var.role_arn
   encryption_key = var.kms_key_arn
-  
+
   artifacts {
-    type = "CODEPIPELINE"
-    name = "terraflow-artifacts"
-    location = ""
-    packaging = "ZIP"
+    type           = "CODEPIPELINE"
+    name           = "terraflow-artifacts"
+    location       = ""
+    packaging      = "ZIP"
     namespace_type = "NONE"
   }
 
@@ -19,7 +19,7 @@ resource "aws_codebuild_project" "terraflow-codebuild" {
   }
 
   source {
-    type = "CODEPIPELINE"
+    type                = "CODEPIPELINE"
     report_build_status = true
   }
 }
