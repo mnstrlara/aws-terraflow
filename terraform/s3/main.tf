@@ -1,9 +1,9 @@
-resource "aws_s3_bucket" "tf-bucket" {
-  bucket = "tf-bucket"
+resource "aws_s3_bucket" "terraflow-bucket" {
+  bucket = "terraflow-bucket"
 }
 
-resource "aws_s3_bucket_public_access_block" "tf-bucket-pab" {
-  bucket = aws_s3_bucket.tf-bucket
+resource "aws_s3_bucket_public_access_block" "terraflow-bucket-pab" {
+  bucket = "terraflow-bucket"
 
   block_public_acls       = true
   block_public_policy     = true
