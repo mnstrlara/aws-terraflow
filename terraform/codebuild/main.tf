@@ -1,15 +1,14 @@
-resource "aws_codebuild_project" "tf-codebuild" {
-  name = "tf-codebuild"
+resource "aws_codebuild_project" "terraflow-codebuild" {
+  name = "terraflow-codebuild"
   service_role = var.role_arn
   encryption_key = var.kms_key_arn
   
   artifacts {
-    type = "S3"
-  }
-
-  cache {
-    type = "S3"
-    location = var.s3_bucket_name
+    type = "CODEPIPELINE"
+    name = "terraflow-artifacts"
+    location = ""
+    packaging = "ZIP"
+    namespace_type = "NONE"
   }
 
   environment {
@@ -20,8 +19,7 @@ resource "aws_codebuild_project" "tf-codebuild" {
   }
 
   source {
-    type = "GITHUB"
-    location = var.source_location
-    git_clone_depth = 1
+    type = "CODEPIPELINE"
+    report_build_status = true
   }
 }
