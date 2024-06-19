@@ -1,23 +1,27 @@
-resource "aws_kms_key" "tf-key" {
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
+
+resource "aws_kms_key" "terraflow-key" {
   description             = "KMS key for TerraFlow project"
   enable_key_rotation     = false
   deletion_window_in_days = 7
-  policy = jsondecode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Id      = "key-default-1"
     Statement = [
       {
         Sid    = "Enable IAM User Permissions"
-        Effect = Allow
+        Effect = "Allow"
         Principal = {
-          AWS = "root"
+          AWS = "arn:aws:iam::${local.account_id}:root"
         },
         Action : "kms:*"
         Resource : "*"
       },
       {
         Sid    = "Allow access for Key Administrators"
-        Effect = Allow
+        Effect = "Allow"
         Principal = {
           AWS = var.codepipeline_role_arn
         },
@@ -26,7 +30,7 @@ resource "aws_kms_key" "tf-key" {
       },
       {
         Sid    = "Allow use of the key"
-        Effect = Allow
+        Effect = "Allow"
         Principal = {
           AWS = var.codepipeline_role_arn
         },
@@ -41,7 +45,7 @@ resource "aws_kms_key" "tf-key" {
       },
       {
         Sid    = "Allow attachment of persistent resources"
-        Effect = Allow
+        Effect = "Allow"
         Principal = {
           AWS = var.codepipeline_role_arn
         },
