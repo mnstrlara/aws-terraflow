@@ -24,12 +24,12 @@ variable "source_location" {
   sensitive   = true
 }
 
-variable "source_repo_name" {
+variable "source_repository_name" {
   description = "Source repository name of the CodeCommit repository"
   type        = string
 }
 
-variable "source_repo_branch" {
-  description = "Default branch in the Source repo for which CodePipeline needs to be configured"
-  type        = string
+variable "repo_default_branch" {
+  description = "The name of the default repository branch (default: master)"
+  default     = "master"
 }
