@@ -19,7 +19,7 @@ resource "aws_codebuild_project" "terraflow-codebuild" {
   }
 
   source {
-    type                = "CODEPIPELINE"
-    report_build_status = true
+    type      = "CODEPIPELINE"
+    buildspec = file("./buildspec.yml")
   }
 }
