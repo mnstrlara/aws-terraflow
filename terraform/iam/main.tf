@@ -70,7 +70,7 @@ resource "aws_iam_policy" "terraflow-policy" {
          "codecommit:ListBranches",
          "codecommit:UploadArchive"
       ],
-      "Resource": "arn:aws:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.source_repository_name}"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -79,7 +79,7 @@ resource "aws_iam_policy" "terraflow-policy" {
         "codebuild:StartBuild",
         "codebuild:BatchGetProjects"
       ],
-      "Resource": "arn:aws:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:project/${var.project_name}*"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -89,7 +89,7 @@ resource "aws_iam_policy" "terraflow-policy" {
         "codebuild:UpdateReport",
         "codebuild:BatchPutTestCases"
       ],
-      "Resource": "arn:aws:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:report-group/${var.project_name}*"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -98,7 +98,7 @@ resource "aws_iam_policy" "terraflow-policy" {
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:log-group:*"
+      "Resource": "*"
     }
   ]
 }
