@@ -8,7 +8,6 @@ resource "aws_kms_key" "terraflow-key" {
   deletion_window_in_days = 7
   policy = jsonencode({
     Version = "2012-10-17"
-    Id      = "key-default-1"
     Statement = [
       {
         Sid    = "Enable IAM User Permissions"
@@ -23,7 +22,7 @@ resource "aws_kms_key" "terraflow-key" {
         Sid    = "Allow access for Key Administrators"
         Effect = "Allow"
         Principal = {
-          AWS = var.codepipeline_role_arn
+          AWS = var.role_arn
         },
         Action : "kms:*"
         Resource : "*"
@@ -32,7 +31,7 @@ resource "aws_kms_key" "terraflow-key" {
         Sid    = "Allow use of the key"
         Effect = "Allow"
         Principal = {
-          AWS = var.codepipeline_role_arn
+          AWS = var.role_arn
         },
         Action : [
           "kms:Encrypt",
@@ -47,7 +46,7 @@ resource "aws_kms_key" "terraflow-key" {
         Sid    = "Allow attachment of persistent resources"
         Effect = "Allow"
         Principal = {
-          AWS = var.codepipeline_role_arn
+          AWS = var.role_arn
         },
         Action : [
           "kms:CreateGrant",
@@ -58,4 +57,8 @@ resource "aws_kms_key" "terraflow-key" {
       }
     ]
   })
+
+  tags = {
+    Name = "terraflow-key"
+  }
 }
