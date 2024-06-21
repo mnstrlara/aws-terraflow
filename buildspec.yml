@@ -2,13 +2,29 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "install step"
+      - echo "Install step"
   pre_build:
     commands:
-      - echo "pre_build step"
+      - echo "Pre-build step"
   build:
     commands:
-      - echo "build command"
+      - echo "Build step"
+      - echo "Generating CloudFormation template..."
+      - mkdir -p output
+      - |
+        cat <<EOT > output/terraflow.yaml
+        AWSTemplateFormatVersion: '2010-09-09'
+        Description: Example template
+        Resources: {}
+        EOT
+      - echo "CloudFormation template generated"
   post_build:
     commands:
-      - echo "post_build step"
+      - echo "Post-build step"
+      - ls -al output
+
+artifacts:
+  files:
+    - output/terraflow.yaml
+  discard-paths: yes
+  name: "terraflow-artifacts"

@@ -4,7 +4,6 @@ locals {
 
 resource "aws_kms_key" "terraflow-key" {
   description             = "KMS key for TerraFlow project"
-  enable_key_rotation     = false
   deletion_window_in_days = 7
   policy = jsonencode({
     Version = "2012-10-17"
@@ -13,7 +12,10 @@ resource "aws_kms_key" "terraflow-key" {
         Sid    = "Enable IAM User Permissions"
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::${local.account_id}:root"
+          AWS = [
+            "arn:aws:iam::${local.account_id}:root",
+            var.role_arn
+          ]
         },
         Action : "kms:*"
         Resource : "*"
