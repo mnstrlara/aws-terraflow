@@ -33,3 +33,8 @@ variable "repo_default_branch" {
   description = "The name of the default repository branch (default: master)"
   default     = "master"
 }
+
+variable "role_arn" {
+  description = "Codepipeline IAM role arn"
+  type        = string
+}
