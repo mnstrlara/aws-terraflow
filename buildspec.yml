@@ -12,3 +12,8 @@ phases:
   post_build:
     commands:
       - echo "post_build step"
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
