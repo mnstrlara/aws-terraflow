@@ -24,8 +24,8 @@ resource "aws_codepipeline" "terraflow-pipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        RepositoryName       = var.source_repo_name
-        BranchName           = var.source_repo_branch
+        RepositoryName       = var.source_repository_name
+        BranchName           = var.repo_default_branch
         PollForSourceChanges = "true"
       }
     }
@@ -44,28 +44,24 @@ resource "aws_codepipeline" "terraflow-pipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "aws-terraflow"
+        ProjectName = "terraflow-codebuild"
       }
     }
   }
 
   stage {
-    name = "Deploy"
-
+    name = "Test"
     action {
-      name            = "Deploy"
-      category        = "Deploy"
-      owner           = "AWS"
-      provider        = "CloudFormation"
-      input_artifacts = ["build_output"]
-      version         = "1"
+      name             = "Test"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["build_output"]
+      output_artifacts = ["test_output"]
+      version          = "1"
 
       configuration = {
-        ActionMode     = "REPLACE_ON_FAILURE"
-        Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
-        OutputFileName = "CreateStackOutput.json"
-        StackName      = "terraflow"
-        TemplatePath   = "build_output::template-export.yaml"
+        ProjectName = "terraflow-test-codebuild"
       }
     }
   }
