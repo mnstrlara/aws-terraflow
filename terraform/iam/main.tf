@@ -25,6 +25,7 @@ EOF
   path               = "/"
 }
 
+
 resource "aws_iam_policy" "terraflow-policy" {
   count       = var.create_new_role ? 1 : 0
   name        = "${var.project_name}-codepipeline-policy"
@@ -41,7 +42,10 @@ resource "aws_iam_policy" "terraflow-policy" {
         "s3:PutObjectAcl",
         "s3:PutObject"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:s3:::terraflow-bucket",
+        "arn:aws:s3:::terraflow-bucket/*"
+        ]
     },
     {
       "Effect": "Allow",

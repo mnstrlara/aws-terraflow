@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+  pre_build:
+    commands:
+      - echo "Running pre-build steps..."
+  build:
+    commands:
+      - echo "Running tests..."
+  post_build:
+    commands:
+      - echo "Tests completed."
+artifacts:
+  files:
+    - '**/*'
