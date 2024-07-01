@@ -87,7 +87,7 @@ $>git commit -a -m "init master"
 $>git push -u origin master
 ```
 
-- This will initialize the repository and officialy start running your pipeline.
+- This will initialize the repository and officially start running your pipeline.
 
 ## Documentation
 #### [AWS CLI install and update instructions](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) - This topic describes how to install or update the latest release of the AWS Command Line Interface (AWS CLI) on supported operating systems
